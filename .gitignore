@@ -1,0 +1,11 @@
+# Prerequisites
+*.d
+
+# Object files
+*.o
+#source files
+*.cpp
+#header
+*.h
+
+
