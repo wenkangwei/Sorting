@@ -1,17 +1,6 @@
----
-title: data-structure-sorting
-tags:
-  - insertion sort
-  - bubble sort
-  - merge sort
-  - quick sort
-categories:
-  - Data Structure
-  - Sorting
-toc: true
----
 
-### Bubble sort
+
+### Bubble sort (冒泡排序法)
 #### Main idea
 Bubble sort compares the array elements  $(n-1) + (n-2)+...+1  = \frac{n(n-1)}{2}$ times. At $k^{th}$ iteration, iterate (n-k) elements and swap two elements if previous one is larger than the next one in ascending sorting.
 It guarantees that in each iteration, there must be at least one element sorted into the correct positions
@@ -51,7 +40,7 @@ __End__
 + __Time Complexity:__ O(n^2), since there are two inner loops in function and need $\frac{n(n-1)}{2}$ comparison.
 
 
-### Selection Sort
+### Selection Sort (选择排序法)
 #### Main Idea
 Selection sort is to find the maximum value of current array and put it to the end of array and then exclude this sorted element to get the sub-array and repeat these two steps to sort the array. If find minimum value, need to put it to the beginning. 
 #### Process
@@ -78,7 +67,7 @@ Selection sort is to find the maximum value of current array and put it to the e
 + __Memory Complexity:__ O(1) since in this code, we don't use additional memory
 + __Time Complexity:__: O(n^2), since selection sort use two loops to sort. One inner loop is used to find max value and the other loop is to sort the max values.
 
-### Insertion sort
+### Insertion sort (插入排序法)
 #### Main Idea
 Main idea of Insertion Sort is to compare the current element with elements before this element and then insert this element to the correct position by moving some elements backward.
 1. Start from arr[1], i=1. Iterate elements arr[i] with index i from 1 to  N-1
@@ -117,7 +106,7 @@ Loop until i ==N-1
 <br>
 
 
-### Quick sort
+### Quick sort (快速排序法)
 #### Main Idea
 In quick sort, the main idea is that
 1. we first choose a pivot/key element used for comparison. Usually __we choose the last element in the partition/array as the pivot (we can also choose middle element or the first element as well)__ 
@@ -139,110 +128,114 @@ __Note: This structure is actually as same as binary search tree__, in which __e
     + right_pt-- until it finds arr[right_pt]< pivot
     + swap arr[left_pt] and arr[right_pt]
     + after reaching terminal, swap pivot and arr[left_pt] such that pivot is at the correct position.
-    + __Pseudo Code__
-~~~
-partition(array, low, high):
-    // check if input range is valid 
-    if begin-end < 1:   return end
-    
-    pivot = array[high]
-    left_pt = low
-    right_pt = high-1
-    //move left_pt to right, right_pt to left until  left_pt>right_pt
-    //when left_pt>right_pt, we know array[left_pt] >= array[right_pt]
-    //then we need to swap pivot with either array[left_pt] or array[right_pt]  to set the boundary
-
-    while left_pt<= right_pt:
-        while left_pt< len(array) and array[left_pt] <= pivot:
-            left_pt++
-        while right_pt> 0 and array[right_pt]>= pivot:
-            right_pt--
+    +  __Pseudo Code__
+    ~~~
+    partition(array, low, high):
+        // check if input range is valid 
+        if begin-end < 1:   return end
         
-        if left_pt< right_pt:
-            swap array[left_pt] and array[right_pt]
-    if array[left_pt] > pivot
-        swap array[left_pt], pivot
-    return left_pt
-~~~
-__Note:__
-+ __array may have multiple values as same as pivot__. In order to iterate each element in position 0~n-1, need to use <= pivot, and >= pivot to avoid trapping at some positions that doesn't satisfy terminal condition
-eg.
+        pivot = array[high]
+        left_pt = low
+        right_pt = high-1
+        //move left_pt to right, right_pt to left until  left_pt>right_pt
+        //when left_pt>right_pt, we know array[left_pt] >= array[right_pt]
+        //then we need to swap pivot with either array[left_pt] or array[right_pt]  to set the boundary
 
-    |arr[left_pt]|a[1]|arr[right_pt]|arr[pivot]|
-    |--|--|--|--|
-    |2|1|2|2|
+        Loop if left_pt<= right_pt:
+            Loop if left_pt< len(array) and array[left_pt] <= pivot:
+                left_pt++
+            Loop if right_pt> 0 and array[right_pt]>= pivot:
+                right_pt--
+            
+            if left_pt< right_pt:
+                swap array[left_pt] and array[right_pt]
+        if array[left_pt] > pivot
+            swap array[left_pt], pivot
+        return left_pt
+    ~~~
+    __Note:__
+    + __array may have multiple values as same as pivot__. In order to iterate each element in position 0~n-1, need to use <= pivot, and >= pivot to avoid trapping at some positions that doesn't satisfy terminal condition
+    eg.
 
-In this case, if we use  "< pivot" and ">pivot" rather than ">=","<=", then left_pt and right_pt won't check "1" in the array. 
+        |arr[left_pt]|a[1]|arr[right_pt]|arr[pivot]|
+        |--|--|--|--|
+        |2|1|2|2|
 
-+ __Need to compare array[left_pt] and pivot__, since when the input array has only 2 element, then left_pt = right_pt, it directly skips the loop and swap data without comparing the values, this could be wrong.
+    In this case, if we use  "< pivot" and ">pivot" rather than ">=","<=", then left_pt and right_pt won't check "1" in the array. 
 
+    + __Need to compare array[left_pt] and pivot__, since when the input array has only 2 element, then left_pt = right_pt, it directly skips the loop and swap data without comparing the values, this could be wrong.
+<br>
 
-2. Recursive operation
-Pseudo Code
-~~~
-QuickSort( array):
-    return quicksort(array, 0, len(array)-1)
-~~~
+2. __Pseudo Code__
 
-~~~
-quicksort(array, begin,end)
-    //Check if array is empty or length >1
-    if end-begin<1: return array
-    
-    // find the correct position of pivot
-    mid = Partition(array, 0, len(array)-1)
-    // sort the subarray with elements smaller than pivot
-    array = quicksort(array, 0, mid-1)
-    // sort the subarray with elements greater than pivot
-    array =  quicksort(array, mid+1,len(array)-1)
-    return array
+    ~~~
+    QuickSort( array):
+        return quicksort(array, 0, len(array)-1)
+    ~~~
 
-~~~
-
-
-~~~Python
-class Solution(object):
-    def quickSort(self, array):
-        """
-        input: int[] array
-        return: int[]
-        """
-        # write your solution here
-        return self.quick_sort(array, 0, len(array) - 1)
-
-    def quick_sort(self, array, begin, end):
-				# check if input range is valid
-        if end - begin < 1:
-            return array
-        mid = self.partition(array, begin, end)
-        array = self.quick_sort(array, begin, mid - 1)
-        array = self.quick_sort(array, mid + 1, end)
+    ~~~
+    quicksort(array, begin,end)
+        //Check if array is empty or length >1
+        if end-begin<1: return array
+        
+        // find the correct position of pivot
+        mid = Partition(array, 0, len(array)-1)
+        // sort the subarray with elements smaller than pivot
+        array = quicksort(array, 0, mid-1)
+        // sort the subarray with elements greater than pivot
+        array =  quicksort(array, mid+1,len(array)-1)
         return array
 
-    def partition(self, array, begin, end):
-				# check if input range is valid
-        if end - begin < 1:
-            return end
-        pivot = array[end]
-        left_pt = begin
-        right_pt = end - 1
-        while left_pt < right_pt:
-            while left_pt < end and array[left_pt] <= pivot:
-                left_pt += 1
-            while right_pt > begin and array[right_pt] >= pivot:
-                right_pt -= 1
-            if right_pt > left_pt:
-                array[left_pt], array[right_pt] = array[right_pt], array[left_pt]
-        if array[end]< array[left_pt]:
-          array[end], array[left_pt] = array[left_pt], array[end]
+    ~~~
 
-        return left_pt
-~~~
+3. __Python Code__
+    ~~~Python
+    class Solution(object):
+        def quickSort(self, array):
+            """
+            input: int[] array
+            return: int[]
+            """
+            # write your solution here
+            return self.quick_sort(array, 0, len(array) - 1)
+
+        def quick_sort(self, array, begin, end):
+                    # check if input range is valid
+            if end - begin < 1:
+                return array
+            mid = self.partition(array, begin, end)
+            array = self.quick_sort(array, begin, mid - 1)
+            array = self.quick_sort(array, mid + 1, end)
+            return array
+
+        def partition(self, array, begin, end):
+                    # check if input range is valid
+            if end - begin < 1:
+                return end
+            pivot = array[end]
+            left_pt = begin
+            right_pt = end - 1
+            while left_pt < right_pt:
+                while left_pt < end and array[left_pt] <= pivot:
+                    left_pt += 1
+                while right_pt > begin and array[right_pt] >= pivot:
+                    right_pt -= 1
+                if right_pt > left_pt:
+                    array[left_pt], array[right_pt] = array[right_pt], array[left_pt]
+            if array[end]< array[left_pt]:
+            array[end], array[left_pt] = array[left_pt], array[end]
+
+            return left_pt
+    ~~~
 
 
 #### Complexity
-+ Memory: O(1) if we don't consider the memory in stack
-+ Speed Complexity: O(logn)
++ __Memory Complexity:__ O(1) if we don't consider the memory in stack. Otherwise,  O(n)
++ __Time Complexity:__   
+    - best case/average case；O(nlogn)
+    - worst case: O(n^2)
+#### Note
++ __when it always picks the greatest/ smallest value as pivot or the array is already sorted, it comes to the worst case O(n^2)__ since the recursion tree becomes a __linked list data structure__ and take O(n) to iterate every node and O(n) to sort at each node. Then it comes to O(n*n) time complexity
 
 
 
@@ -344,13 +337,14 @@ Merge sort  is one of the divide and conquer algorithm like quicksort. Its main 
 #### Compared with quick sort
 1. Both __merge sort and quick sort__ use __divide and conquer__ method (分治算法) to divide array and then solve each subset recursively. Hence both of them involve logn time complexity
 2. __Merge sort__ involves linear sorting during merging two subarray and hence at each level of recursion tree, it takes O(n) to sort. __The total time complexity is O(nlogn)__
-3. __Quicksort is much more useful__ than merge sort and linear sorting(insertion, bubble, selection) due to its __O(logn)__ time complexity without increasing memory complexity
+3. __Quicksort and merge sort are much more useful__ than  linear sorting(insertion, bubble, selection) due to its __O(nlogn)__ time complexity without increasing memory complexity
 
-#### Notes:
+### Notes:
 1. Usually, Recursion method is less optimal than iteration method (using while loop), since recursion method requires stack memory to store and return solved subset back to last sub-problem. __Hence memory complexity of recursion is usually O(n) unless there are no memory used in recursion function and reduce n to 1__
 2. Recursion method is easy to implement, but usually costs more memory.
 3. Selection sort can be viewed as a version of bubble sort with more explicit physic meaning, since it explicitly finds the min/max value and put them to the beginning/end of subarray.
 4. __Insertion__ sort compares current element with __previous elements__ while __bubble/selection__ sort compare current element with the __next elements__
+5. __In-place algorithm:__ an algorithm which transforms input using no auxiliary data structure. However a small amount of extra storage space is allowed for auxiliary variables. The input is usually overwritten by the output as the algorithm executes.
 
 ### Source code
 For C++ source code, Please read my github repository [here](https://github.com/wenkangwei/Sorting/tree/master/src)
